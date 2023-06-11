@@ -24,6 +24,7 @@ function createCerts() {
         textItem.content = names[i];
         var psdFilePath = doc.fullName;    
         var outputPath = psdFilePath.parent.fsName + "/" + psdFilePath.name.replace(/\.psd$/i, ".png");
+        var pngOptions = new PNGSaveOptions();
         doc.saveAs(new File(outputPath), pngOptions);
     }
 }
@@ -33,6 +34,9 @@ function processNames() {
     var open = file.open('r');
     var contents = file.read();
     file.close;
-    var delimiters = /\s\n\r,\|&/gmi;
+    var delimiters = /\n\r,\|&/gmi;
     names = contents.split(delimiters);
 }
+
+processNames();
+createCerts();
