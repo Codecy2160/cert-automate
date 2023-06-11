@@ -1,15 +1,14 @@
-var files = File.openDialog("Select Photoshop files", "*.psd", false);
 var nameFile = File.openDialog("Select Text File with Names", "*.psd", false);
 var names = [ ];
 
-if(!files) alert("No Photoshop file selected!");
-else if(!nameFile) alert("No Text file selected!");
-if(!files || !nameFile) $.gc;
+if(!nameFile) {
+    alert("No Text file selected!");
+    $.gc;
+}
 
-function createCerts(x) {
-    if(!names[x]) return;
-    var file = new File(files[0]);
-    var doc = app.open(file);
+function createCerts() {
+    if(!names[0]) return;
+    var doc = app.activeDocument;
     var nameLayer;
     var textSize = 0;
     for(var i = 0; i < doc.layers.length; i++) {
@@ -20,12 +19,18 @@ function createCerts(x) {
                 textItem.size > textSize) nameLayer = layer;
         }
     }
-
+    for(var i = 0; i < names.length; i++) {
+        var textItem = nameLayer.textItem;
+        textItem.content = names[i];
+        var psdFilePath = doc.fullName;    
+        var outputPath = psdFilePath.parent.fsName + "/" + psdFilePath.name.replace(/\.psd$/i, ".png");
+        doc.saveAs(new File(outputPath), pngOptions);
+    }
 }
 
 function processNames() {
     var file = new File(nameFile);
-    var name = file.open('r');
+    var open = file.open('r');
     var contents = file.read();
     file.close;
     var delimiters = /\s\n\r,\|&/gmi;
