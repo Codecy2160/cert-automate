@@ -1,4 +1,4 @@
-var nameFile = File.openDialog("Select Text File with Names", "*.psd", false);
+var nameFile = File.openDialog("Select Text File with Names", "*.txt", false);
 var names = [ ];
 
 if(!nameFile) {
