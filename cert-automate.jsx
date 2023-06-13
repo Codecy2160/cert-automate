@@ -9,16 +9,8 @@ if(!nameFile) {
 function createCerts() {
     if(!names[0]) return;
     var doc = app.activeDocument;
-    var nameLayer;
+    var nameLayer = doc.activeLayer;
     var textSize = 0;
-    for(var i = 0; i < doc.layers.length; i++) {
-        var layer = doc.layers[i];
-        if(layer.kind === LayerKind.TEXT) {
-            var textItem = layer.textItem;
-            if(textItem.content.length === 0 &&
-                textItem.size > textSize) nameLayer = layer;
-        }
-    }
     for(var i = 0; i < names.length; i++) {
         var textItem = nameLayer.textItem;
         textItem.content = names[i];
